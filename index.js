@@ -9,7 +9,7 @@
 const express = require('express');
 
 // Constants
-const PORT = 8080;
+const PORT = 80;
 const HOST = 'localhost';
 const OS = require('os');
 const ENV = 'DEVELOPMENT';
