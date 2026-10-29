@@ -1,0 +1,66 @@
+## PROJECT: AWS AUTHOURIZATION FOR A USER USING KUBERNETES RBAC CONFIGURATION 
+
+  ##################### Create AWS EKS clsuster #######################################################################
+
+## Pre-requisite links
+  https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html
+
+## Pre-requisite links
+  https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html
+
+#If this your first time of installing this on aws linux instance, remove the preinstalled yum version on it
+
+$sudo yum remove aws cli
+
+
+# install eksctl
+
+curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+
+sudo mv /tmp/eksctl /usr/local/bin
+
+eksctl version
+#==================================
+## install aws cli
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" 
+sudo apt install unzip 
+unzip awscliv2.zip 
+sudo ./aws/install
+
+#check the version
+
+aws --version
+#======================================
+#now check if you have kubectl on your machine, run the command below
+$kubectl version
+$kubectl version --client
+
+#if not exist the install kubectl on linux used the link #below
+
+
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+kubectl version --client
+#====================================
+
+
+## Create EKS cluster
+  eksctl create cluster --name eks-cluster-abi --node-type t2.medium --nodes 1 --nodes-min 1 --nodes-max 2 --region eu-west-2
+
+  ## Update Kube config by entering below command:
+
+aws eks update-kubeconfig --name eks-cluster-abi --region eu-west-2
+
+
+## Get EKS Cluster service
+eksctl get cluster --name eks-cluster-abi --region eu-west-2
+
+## Get EKS Pod data.
+kubectl get pods --all-namespaces
+
+## Delete EKS cluster
+eksctl delete cluster --name eks-cluster-abi --region eu-west-2
+####################################################################################################################
+

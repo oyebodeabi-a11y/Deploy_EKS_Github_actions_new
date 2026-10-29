@@ -1,0 +1,36 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: diamondappdeployment
+  namespace: default
+  labels:
+    app: diamondappdeployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: diamondappdeployment
+  template:
+    metadata:
+      labels:
+        app: diamondappdeployment
+    spec:
+      containers:
+      - name: diamondappdeployment
+        image: 794203517694.dkr.ecr.eu-west-2.amazonaws.com/diamondimage
+        ports:
+          - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: diamondappdeployment
+  namespace: default
+spec:
+  selector:
+    app: diamondappdeployment
+  type: LoadBalancer
+  ports:
+  - name: http
+    targetPort: 8080
+    port: 80
